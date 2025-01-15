@@ -1,0 +1,48 @@
+namespace: karpenter
+
+nodepool:
+  name: default
+  expireAfter: 72h
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+  taints: []
+  requirements: []
+  kubelet:
+    maxPods: 50
+    systemReserved:
+      cpu: '100m'
+      memory: '128Mi'
+      storage: '1Gi'
+    kubeReserved:
+      cpu: '200m'
+      memory: '256Mi'
+      storage: '3Gi'
+    evictionSoft:
+      memory:
+        available: '10%'
+      nodefs:
+        available: '15%'
+        inodesFree: '15%'
+    evictionSoftGracePeriod:
+      memory:
+        available: '1m'
+        nodefs:
+          available: '30s'
+          inodesFree: '1m30s'
+    evictionHard:
+      memory:
+        available: '1Gi'
+      nodefs:
+        available: '10%'
+        inodesFree: '10%'
+  
+ec2NodeClass:
+  name: default
+  amiFamily: Bottlerocket
+  amiSelectorTerms:
+    - alias: bottlerocket@latest
+  detailedMonitoring: true
+  clusterName: ""
+  blockDeviceMappings: []
+  subnetTags: []
+  securityGroupTags: []
